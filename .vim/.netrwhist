@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/cnav/cnav/ebenezar/trunk'
+let g:netrw_dirhist_2='/Users/makowsm/.chef/trusted_certs'
+let g:netrw_dirhist_3='/Users/makowsm/.vim/bundle'
