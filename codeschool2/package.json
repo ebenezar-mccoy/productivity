@@ -1,0 +1,21 @@
+{
+  "name": "codeschool2",
+  "theme": "syntax",
+  "version": "1.0.1",
+  "description": "Syntax theme based on the Codeschool theme",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "readme": "# Codeschool theme\n\nSyntax theme for Atom editor",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}
