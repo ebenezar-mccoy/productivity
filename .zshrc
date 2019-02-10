@@ -44,7 +44,6 @@ export LC_CTYPE=en_US.UTF-8
 export LESSCHARSET=utf-8
 export PAGER='less'
 export TERM=screen-256color
-export HOMEBREW_GITHUB_API_TOKEN="e3b0f4973f10950f5321b11369ff76547c9539d8"
 export LESS_TERMCAP_mb=$'\e[01;31m'       # begin blinking
 export LESS_TERMCAP_md=$'\e[01;38;5;74m'  # begin bold
 export LESS_TERMCAP_me=$'\e[0m'           # end mode
