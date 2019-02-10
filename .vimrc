@@ -1,13 +1,39 @@
-" load plugins
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
-call pathogen#helptags()
+" $Id: vimrc,v 2.0 2019/02/10 11:30:00 ebenezar Exp $
 
-" require vim
+" require vim/nvim
 set nocompatible
+
+" load plugins
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tpope/vim-fugitive' " git commands
+Plug 'airblade/vim-gitgutter' 
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'neomake/neomake' " linter
+Plug 'roxma/vim-hug-neovim-rpc' " deoplete requirment
+Plug 'roxma/nvim-yarp' " deoplete requirment
+Plug 'Shougo/deoplete.nvim' " completion
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'stephpy/vim-yaml'
+Plug 'pearofducks/ansible-vim'
+" Plug 'phenomenes/ansible-snippets'
+call plug#end()
 
 " enconding
 set encoding=utf-8
+
+" fonts"
+set guioptions-=L
+set guifont=Monaco:h13
+set noeb vb t_vb=
 
 " colors
 syntax on
@@ -74,10 +100,10 @@ function! TrimWhiteSpace()
 endfunction
 
 " Filter and trim whitespaces
-autocmd FileWritePre * :call TrimWhiteSpace()
-autocmd FileAppendPre * :call TrimWhiteSpace()
-autocmd FilterWritePre * :call TrimWhiteSpace()
-autocmd BufWritePre * :call TrimWhiteSpace()
+autocmd FileType ruby,java,python autocmd FileWritePre * :call TrimWhiteSpace()
+autocmd FileType ruby,java,python autocmd FileAppendPre * :call TrimWhiteSpace()
+autocmd FileType ruby,java,python autocmd FilterWritePre * :call TrimWhiteSpace()
+autocmd FileType ruby,java,python autocmd BufWritePre * :call TrimWhiteSpace()
 
 " Remember info about open buffers on close
 autocmd BufReadPost *
@@ -131,8 +157,10 @@ map <Up> gk
 nmap <leader>sh :set hlsearch! hlsearch?<CR>
 
 " use :w!! to write to a file using sudo if you forgot to 'sudo vim file'
-" (it will prompt for sudo password when writing)
 cmap w!! %!sudo tee > /dev/null %
+
+" fzf
+map <F4> :FZF<CR>
 
 " ruby
 augroup FTRuby
@@ -143,39 +171,52 @@ augroup FTRuby
   autocmd FileType ruby,eruby             let g:rubycomplete_classes_in_global=1
   autocmd FileType ruby,eruby             let g:rubycomplete_buffer_loading = 1
   " autocmd FileType eruby set filetype=eruby.chef
-  autocmd FileType ruby set filetype=ruby.chef
+  " autocmd FileType ruby set filetype=ruby.chef
   let g:rails_statusline = 1
 augroup END
 
+
 " nerdtree
-map <F2> :CtrlP<CR>
-map <F3> :NERDTreeToggle<CR>
-map <F4> :NERDTreeFind<CR>
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-autocmd bufenter * if (winnr(“$”) == 1 && exists(“b:NERDTreeType”) && b:NERDTreeType == “primary”) | q | endif
+map <F2> :NERDTreeToggle<CR>
+map <F3> :NERDTreeFind<CR>
+let g:nerdtree_tabs_open_on_gui_startup = 0
 let NERDTreeQuitOnOpen = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+let NERDTreeAutoDeleteBuffer = 1
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd bufenter * if (winnr(“$”) == 1 && exists(“b:NERDTreeType”) && b:NERDTreeType == “primary”) | q | endif
 
 " neomake
-let g:neomake_ruby_enabled_makers = ['mri', 'rubocop', 'foodcritic']
-let g:vimrubocop_extra_args = '-r cookstyle -D'
+let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
+" "let g:vimrubocop_extra_args = '-r cookstyle -D'
+let g:neomake_python_enabled_makers = ['flake8', 'pyflakes']
 autocmd! BufWritePost,BufEnter * Neomake
+let g:neomake_echo_current_error = 0
 
-" neocomplete
-imap <expr><TAB> pumvisible() ? neocomplete#close_popup() : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-inoremap <expr><CR> pumvisible() ? neocomplete#close_popup() : "\<CR>"
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" completion
 let g:acp_enableAtStartup = 0
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 4
-" let g:neocomplete#enable_auto_select = 1
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#sources#syntax#min_keyword_length = 2
 " let g:neosnippet#enable_snipmate_compatibility = 1
-" let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'"
+" let g:neosnippet#disable_runtime_snippets = {'_': 1}
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:ansible_unindent_after_newline = 1
+let g:ansible_yamlKeyName = 'yamlKey'
+let g:ansible_attribute_highlight = "ob"
+let g:ansible_name_highlight = 'd'
+let g:ansible_extra_keywords_highlight = 1
+let g:ansible_normal_keywords_highlight = 'Constant'
+let g:ansible_with_keywords_highlight = 'Constant'
+imap <expr><TAB> pumvisible() ? deoplete#close_popup() : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+inoremap <expr><CR> pumvisible() ? deoplete#close_popup() : "\<CR>"
+au BufRead,BufNewFile */plays/*/*.yml set filetype=yaml.ansible
+au BufRead,BufNewFile */plays/**/*.yml set filetype=yaml.ansible
+au BufRead,BufNewFile */tasks/*.yml set filetype=yaml.ansible
 
 " airline
 set laststatus=2
@@ -183,11 +224,10 @@ set laststatus=2
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='bubblegum'
-let g:airline_section_warning=''
+""let g:airline_section_warning=''
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#disable_rtp_load = 0
-
- let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
@@ -195,7 +235,6 @@ let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline#extensions#tabline#fnamemod = ':t'
-
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''

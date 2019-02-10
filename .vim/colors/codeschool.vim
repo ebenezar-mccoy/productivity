@@ -31,8 +31,8 @@ hi IncSearch ctermfg=16 ctermbg=107 cterm=NONE guifg=#182227 guibg=#8bb664 gui=N
 hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=NONE guibg=NONE gui=underline
 hi Directory ctermfg=68 ctermbg=NONE cterm=NONE guifg=#3c98d9 guibg=NONE gui=NONE
 hi Folded ctermfg=247 ctermbg=16 cterm=NONE guifg=#9a9a9a guibg=#182227 gui=NONE
-" hi Normal ctermfg=231 ctermbg=16 cterm=NONE guifg=#f0f0f0 guibg=#E5E5E6 gui=NONE
-" hi Normal ctermfg=231 ctermbg=7 cterm=NONE guifg=#f0f0f0 guibg=#E5E5E6 gui=NONE
+"hi Normal ctermfg=231 ctermbg=16 cterm=NONE guifg=#f0f0f0 guibg=#E5E5E6 gui=NONE
+hi Normal ctermfg=NONE ctermbg=NONE cterm=NONE guifg=gray guibg=#2E3B43 gui=NONE
 hi Boolean ctermfg=68 ctermbg=NONE cterm=NONE guifg=#3c98d9 guibg=NONE gui=NONE
 hi Character ctermfg=68 ctermbg=NONE cterm=NONE guifg=#3c98d9 guibg=NONE gui=NONE
 hi Comment ctermfg=247 ctermbg=NONE cterm=NONE guifg=#9a9a9a guibg=NONE gui=italic
@@ -110,3 +110,9 @@ hi cssClassName ctermfg=153 ctermbg=NONE cterm=NONE guifg=#bcdbff guibg=NONE gui
 hi cssValueLength ctermfg=68 ctermbg=NONE cterm=NONE guifg=#3c98d9 guibg=NONE gui=NONE
 hi cssCommonAttr ctermfg=151 ctermbg=NONE cterm=NONE guifg=#a7cfa3 guibg=NONE gui=NONE
 hi cssBraces ctermfg=NONE ctermbg=NONE cterm=NONE guifg=NONE guibg=NONE gui=NONE
+let g:gitgutter_override_sign_column_highlight = 0
+highlight SignColumn ctermbg=238
+highlight GitGutterAdd ctermbg=238 ctermfg=green
+highlight GitGutterChange ctermbg=238 ctermfg=yellow
+highlight GitGutterDelete ctermbg=238 ctermfg=red
+highlight GitGutterChangeDelete ctermbg=238 ctermfg=red
