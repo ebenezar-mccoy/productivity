@@ -1,5 +1,13 @@
-#### zshrc requirments
+#### tmux requirments
 
+clippboard:
+```
+brew install reattach-to-user-namespace 
+```
+
+#### zsh requirments
+
+highlighting and fuzzy search:
 ```
 brew install zsh-syntax-highlighting fzf
 ```
@@ -9,7 +17,7 @@ pure prompt:
 npm install --global pure-prompt
 ```
 
-#### vimrc requirments
+#### vim requirments
 
 neovim:
 
