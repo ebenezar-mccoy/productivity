@@ -1,0 +1,7 @@
+color cursor          150 238
+color status          150 default
+color tree            238 default
+color date            245 default
+#color date            180 default
+color author          150 default
+color title-focus     150 238
