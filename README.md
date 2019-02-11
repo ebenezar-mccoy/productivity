@@ -1,6 +1,6 @@
 #### tmux requirments
 
-clippboard:
+clipboard:
 ```
 brew install reattach-to-user-namespace 
 ```
