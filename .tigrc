@@ -10,3 +10,4 @@ color main-tracked    blue  default bold
 color main-remote     blue  default
 color "Author: "      blue  default bold
 color "Commit: "      blue  default
+color palette-0       red   default
