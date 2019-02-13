@@ -1,12 +1,12 @@
 color header          150   default bold
 color section         150   default
 color title-focus     150   238
-color title-blur      150   238
+color title-blur      249   238
 color cursor          249   237
 color date            247   default
 color author          150   default
 color main-head       red   default
 color main-tracked    blue  default bold
 color main-remote     blue  default
-color "Author: "      150   default
-color "Commit: "      150   default bold
+color "Author: "      blue  default bold
+color "Commit: "      blue  default
