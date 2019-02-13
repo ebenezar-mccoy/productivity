@@ -11,3 +11,6 @@ color main-remote     blue  default
 color "Author: "      blue  default bold
 color "Commit: "      blue  default
 color palette-0       red   default
+color stat-staged     red   default
+color stat-unstaged   red   default
+color stat-untracked  red   default
