@@ -1,4 +1,4 @@
-# $Id: zshrc,v 2.0 2019/02/10 11:30:00 ebenezar Exp $
+# $Id: zshrc,v 2.0 2019/02/09 12:00:00 ebenezar Exp $
 
 # Use hard limits, except for a smaller stack and no core dumps
 unlimit
@@ -11,6 +11,7 @@ path=(
   /usr/local/opt/ruby/bin
   /usr/local/lib/ruby/gems/2.6.0/bin/
   /usr/local/opt/python/libexec/bin
+  /usr/local/Cellar/terraform@0.11/0.11.14/bin
   /opt/chefdk/bin
   /usr/local/bin
   /usr/local/sbin
@@ -41,9 +42,11 @@ export REPORTTIME=10
 export EDITOR='nvim'
 export NULLCMD=:
 export LC_CTYPE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 export LESSCHARSET=utf-8
 export PAGER='less'
-export TERM=screen-256color
+#export TERM=screen-256color
 export LESS_TERMCAP_mb=$'\e[01;31m'       # begin blinking
 export LESS_TERMCAP_md=$'\e[01;38;5;74m'  # begin bold
 export LESS_TERMCAP_me=$'\e[0m'           # end mode
@@ -62,10 +65,12 @@ alias mkdir='nocorrect mkdir'
 alias grep='egrep'
 alias lsd='ls -ld *(-/DN)'
 alias sgrep='egrep -v "^$|^#"'
-alias python='python3'
+# alias python='python3'
 alias pip='pip3'
 alias tmux='tmux -2'
 alias sublime='subl --command toggle_full_screen'
+alias curl='curl --netrc-file ~/.netrc -k'
+alias ansible='ANSIBLE_STDOUT_CALLBACK=default ansible'
 # alias mv='nocorrect mv'
 # alias mv='noglob mv'
 # alias cp='nocorrect cp'
@@ -74,10 +79,15 @@ alias sublime='subl --command toggle_full_screen'
 hash -d log="/var/log"
 hash -d puppet=~/Documents/repos.nosync/puppet
 hash -d ansible=~/Documents/repos.nosync/ansible
+# export WORKSPACE=~/Documents/repos.nosync/ansible
 hash -d devops-scripts=~/Documents/repos.nosync/devops-scripts
 hash -d terraform=~/Documents/repos.nosync/terraform
-hash -d apps=/Users/mariuszmakowski/Documents/repos.nosync/apps
-hash -d jenkins-agent=/Users/mariuszmakowski/Documents/repos.nosync/jenkins-agent
+hash -d repos=~/Documents/repos.nosync
+hash -d apps=~/Documents/repos.nosync/apps
+hash -d ansible-locale=~/Documents/repos.nosync/ansible-locale
+hash -d tc-applications=~/Documents/repos.nosync/tc-applications
+hash -d teamcity-agent=~/Documents/repos.nosync/teamcity-agent
+
 
 # keybinds
 bindkey -e
@@ -166,7 +176,7 @@ zstyle ':completion:*' list-colors $LS_COLORS
 set clipboard=unnamed
 
 # zsh highlight
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 # fuzzy search
@@ -193,12 +203,24 @@ function mdcat()
   cat $* | markdown | html2text
 }
 
-# prompt
-autoload -U promptinit; promptinit
-prompt pure
 
 # GIT_PROMPT_EXECUTABLE="haskell"
 # PROMPT='%{$fg_no_bold[blue]%}%~%b$(git_super_status)%  %(!|%{$fg_no_bold[yellow]%}|%{$fg_bold[black]%})%(?..%{$fg[red]%})%#%{$fg_no_bold[default]%} '
 # precmd () {
 #   prompt="%{$fg_no_bold[blue]%}%~%b$(git_super_status)%  %(!|%{$fg_no_bold[yellow]%}|%{$fg_bold[black]%})%(?..%{$fg[red]%})%#%{$fg_no_bold[default]%} "
 # }
+# source ~/.zsh/git.zsh
+
+source ~/.zsh/awsmfa.zsh
+
+function checkJenkinsfile()
+{
+  curl --silent -X POST -F 'jenkinsfile=<Jenkinsfile' https://jenkins.cci-dev.pl/pipeline-model-converter/validate --netrc-file ~/.netrc
+}
+
+#stty erase '^?'
+
+# prompt
+autoload -U promptinit; promptinit
+prompt pure
+zstyle ':prompt:pure:prompt:*' color green
